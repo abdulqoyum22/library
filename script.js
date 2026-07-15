@@ -30,6 +30,7 @@ function displayBooks() {
 
   myLibrary.forEach((book, index) => {
     const card = document.createElement("div");
+    card.classList.add("card");
 
     const title = document.createElement("h3");
     title.textContent = book.title;
@@ -42,6 +43,11 @@ function displayBooks() {
 
     const read = document.createElement("p");
     read.textContent = book.read ? "Read" : "Not Read";
+    if (book.read) {
+      read.classList.add("read");
+    } else {
+      read.classList.add("not-read")
+    }
 
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "Remove";
@@ -104,4 +110,23 @@ form.addEventListener("submit", (event) => {
   dialog.close();
 });
 
-card.classList.add("card");
+const cancelBtn = document.querySelector("#cancelBtn");
+cancelBtn.addEventListener("click", () => {
+  form.reset();
+  dialog.close();
+})
+
+dialog.addEventListener("click", (event) => {
+  const rect = dialog.getBoundingClientRect();
+
+  const clickedOutside =
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom;
+    
+  if (clickedOutside) {
+    dialog.close();
+  };     
+});
+
